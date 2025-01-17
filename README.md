@@ -31,15 +31,15 @@
 
 NTCサーミスタの温度 $T$ [K]と電気抵抗 $R$ [Ω]の関係は[ネイピア数](https://ja.wikipedia.org/wiki/%E3%83%8D%E3%82%A4%E3%83%94%E3%82%A2%E6%95%B0) $e$ の[指数](https://ja.wikipedia.org/wiki/%E5%86%AA%E4%B9%97)を使った次式で表されます。
 
-$$R = R_ae^{\left[B\left(\frac{1}{T}-\frac{1}{T_a}\right)\right]}=R_a\exp\left[B\left(\frac{1}{T}-\frac{1}{T_a}\right)\right] \tag{1}$$
+$$R = R_ae^{\left[B\left(\frac{1}{T}-\frac{1}{T_a}\right)\right]}=R_a\exp\left[B\left(\frac{1}{T}-\frac{1}{T_a}\right)\right] \hspace{30pt}(1)$$
 
 ここで $T_a$ [K] は基準温度、 $R_a$ [Ω] は基準温度 $T_a$ [K] における電気抵抗、 $B$ [K]はB定数と呼ばれる定数です。これらは使用するサーミスタによって異なるので、カタログの数値を確認してください。[「2. 用意する物」](https://github.com/yoichi-kawamoto/thermistor?tab=readme-ov-file#2-%E7%94%A8%E6%84%8F%E3%81%99%E3%82%8B%E7%89%A9)にある[SEMITECのNTCサーミスタ](https://www.semitec.co.jp/products/thermistor_at/)は $T_a$ = 298.15 K、 $R_a$ = 10 kΩ、 $B$ = 3435 Kです。式(1)を[自然対数](https://ja.wikipedia.org/wiki/%E8%87%AA%E7%84%B6%E5%AF%BE%E6%95%B0)の形に書き直すと
 
-$$\ln\left(\frac{R}{R_a}\right)=B\left(\frac{1}{T}-\frac{1}{T_a}\right) \tag{2}$$
+$$\ln\left(\frac{R}{R_a}\right)=B\left(\frac{1}{T}-\frac{1}{T_a}\right) \hspace{30pt}(2)$$
 
 となり、更に式を変形すると、温度 $T$ [K] は
 
-$$T=\frac{1}{\frac{\ln\left(\frac{R}{R_a}\right)}{B}+\frac{1}{T_a}} \tag{3}$$
+$$T=\frac{1}{\frac{\ln\left(\frac{R}{R_a}\right)}{B}+\frac{1}{T_a}} \hspace{30pt}(3)$$
 
 となります。
 
@@ -49,21 +49,21 @@ $$T=\frac{1}{\frac{\ln\left(\frac{R}{R_a}\right)}{B}+\frac{1}{T_a}} \tag{3}$$
 
 電圧 $V$ [V]、電流 $I$ [A]、電気抵抗 $R$ [Ω]の間に $I=\frac{V}{R}$ が成り立つのが電流のオームの法則です。固定抵抗器とサーミスタは直列に繋がれているので、固定抵抗器に流れる電流（式(4)の左辺）とサーミスタに流れる電流（式(4)の右辺）は等しくなります。
 
-$$\frac{V_{in}-V_{out}}{R_1}=\frac{V_{out}}{R} \tag{4}$$
+$$\frac{V_{in}-V_{out}}{R_1}=\frac{V_{out}}{R} \hspace{30pt}(4)$$
 
 式(4)を変形すると、サーミスタの電気抵抗 $R$ [kΩ]は
 
-$$R=R_1\frac{V_{out}}{V_{in}-V_{out}} \tag{5}$$
+$$R=R_1\frac{V_{out}}{V_{in}-V_{out}} \hspace{30pt}(5)$$
 
 となります。 $V_{in}$ [V]は電源の電圧で一定ですので、 $V_{out}$ [V]を測定することでサーミスタの電気抵抗を求めることができます。
 
 Raspberry Pi Picoの[ADC（Analog-to-digital converter; A-D変換）](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%8A%E3%83%AD%E3%82%B0-%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E5%A4%89%E6%8F%9B%E5%9B%9E%E8%B7%AF)は、電圧を $V_{in}$ = 3.3 Vに対する12bit（2の12乗、0から4095までの4096段階）の相対値として読み取ります（ただし、プログラミングに使うMicroPythonでは12bitから16bit（2の16乗、0から65535までの65536段階）に変換された値となります）。ADCで読み取った値を $n$ とすると、
 
-$$R=R_1\frac{V_{out}}{V_{in}-V_{out}}=R_1\frac{n}{65536-n} \tag{6}$$
+$$R=R_1\frac{V_{out}}{V_{in}-V_{out}}=R_1\frac{n}{65536-n} \hspace{30pt}(6)$$
 
 となります。この電気抵抗 $R$ [kΩ]を用いて式(3)を計算することで、温度 $T$ [K]が求められます。
 
-$$T=\frac{1}{\frac{\ln\left(\frac{R}{R_a}\right)}{B}+\frac{1}{T_a}}=\frac{1}{\frac{\ln\left(\frac{R}{10.0}\right)}{3435}+\frac{1}{298.15}} \tag{7}$$
+$$T=\frac{1}{\frac{\ln\left(\frac{R}{R_a}\right)}{B}+\frac{1}{T_a}}=\frac{1}{\frac{\ln\left(\frac{R}{10.0}\right)}{3435}+\frac{1}{298.15}} \hspace{30pt}(7)$$
 
 # 4. サーミスタ温度計の作成
 ## 4.1. 回路の作成
